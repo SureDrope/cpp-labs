@@ -1,4 +1,4 @@
-#include "include/Printer.h"
+#include "../include/Printer.h"
 #include <iostream>
 
 Printer::Printer(std::string brand, std::string model, float price, int lifespan,
