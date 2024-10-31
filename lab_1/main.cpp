@@ -2,22 +2,26 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <limits>
 
 struct Student
 {
     std::string surname;
     std::string university;
-    int year;
     std::string faculty;
+    int year;
 
-    Student(std::string sur, std::string uni, int y, std::string fac)
-        : surname(std::move(sur)), university(std::move(uni)), year(y), faculty(std::move(fac))
+    Student(std::string sur, std::string uni, std::string fac, int y)
+        : surname(std::move(sur)), university(std::move(uni)), faculty(std::move(fac)), year(y)
     {
     }
 };
 
 std::vector<std::string> split(const std::string &str, char delimiter);
-// Student createStudent(const std::vector<std::string> &fields);
+void print_students(const std::vector<Student> &students);
+void find_second_year_students(const std::vector<Student> &students);
+void edit_student(Student &student);
+void save_to_file(const std::vector<Student> &students, const std::string &filename);
 
 int main()
 {
@@ -29,16 +33,10 @@ int main()
     {
         std::string line;
 
-        std::cout << "Студенты: " << std::endl;
-
         while (std::getline(file, line))
         {
-            std::cout << "* " << line << std::endl;
-
             std::vector<std::string> fields = split(line, ' ');
-            // Student student{.surname = fields[0], .university = fields[1], .year = std::stoi(fields[2]), .faculty = fields[3]};
-            // students.push_back(student);
-            students.emplace_back(fields[0], fields[1], std::stoi(fields[2]), fields[3]);
+            students.emplace_back(fields[0], fields[1], fields[2], std::stoi(fields[3]));
         }
 
         file.close();
@@ -48,33 +46,57 @@ int main()
         throw std::runtime_error("Не удалось открыть файл");
     }
 
-    int second_year_students_count = 0;
-    for (const Student &student : students)
+    int choice;
+    std::string filename;
+
+    do
     {
-        if (student.year == 2)
+        std::cout << "\nВыберите действие: \n";
+        std::cout << "0. Выход\n";
+        std::cout << "1. Отображение студентов\n";
+        std::cout << "2. Редактирование студента\n";
+        std::cout << "3. Найти количество студентов 2 курса\n";
+        std::cout << "4. Сохранение студентов в файл\n";
+        std::cout << "Ваш выбор: ";
+        std::cin >> choice;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очистка буфера ввода
+        switch (choice)
         {
-            second_year_students_count++;
+        case 1:
+            print_students(students);
+            break;
+        case 2:
+        {
+            int index;
+            std::cout << "Введите номер студента для редактирования (1-" << students.size() << "): ";
+            std::cin >> index;
+            if (index > 0 && index <= students.size())
+            {
+                edit_student(students[index - 1]);
+            }
+            else
+            {
+                std::cout << "Некорректный номер студента." << std::endl;
+            }
+            break;
         }
-    }
-    std::cout << "\nКоличество студентов второго курса: " << second_year_students_count << std::endl;
+        case 3:
+            find_second_year_students(students);
+            break;
+        case 4:
 
-    std::string file_name;
-
-    std::cout << "\nВведите название файла: ";
-    std::cin >> file_name;
-
-    std::ofstream new_file(file_name);
-
-    if (new_file.is_open())
-    {
-        new_file << "Количество студентов второго курса: " << second_year_students_count;
-
-        new_file.close();
-    }
-    else
-    {
-        throw std::runtime_error("Не удалось создать файл");
-    }
+            std::cout << "Введите имя файла для работы: ";
+            std::getline(std::cin, filename);
+            save_to_file(students, filename);
+            std::cout << "Данные сохранены в файл." << std::endl;
+            break;
+        case 0:
+            std::cout << "Выход из программы." << std::endl;
+            break;
+        default:
+            std::cout << "Некорректный выбор" << std::endl;
+        }
+    } while (choice != 0);
 
     return 0;
 }
@@ -97,10 +119,57 @@ std::vector<std::string> split(const std::string &str, char delimiter)
     return result;
 }
 
-// Student createStudent(const std::vector<std::string> &fields)
-// {
-//     if (fields.size() != 4)
-//         throw std::runtime_error("Неверное количество полей для создания структуры студента");
+void print_students(const std::vector<Student> &students)
+{
+    for (size_t i = 0; i < students.size(); ++i)
+    {
+        const Student &p = students[i];
+        std::cout << i + 1 << ". Фамилия: " << p.surname << ", Университет: " << p.university
+                  << ", Факультет: " << p.faculty << " Год обучения: " << p.year << "\n";
+    }
+}
 
-//     return {fields[0], fields[1], std::stoi(fields[2]), fields[3]};
-// }
+void find_second_year_students(const std::vector<Student> &students)
+{
+    int second_year_students_count = 0;
+    for (const Student &student : students)
+    {
+        if (student.year == 2)
+        {
+            second_year_students_count++;
+        }
+    }
+    std::cout << "\nКоличество студентов второго курса: " << second_year_students_count << std::endl;
+}
+
+void edit_student(Student &student)
+{
+    std::cout << "\nВведите новую фамилию студента: ";
+    std::cin >> student.surname;
+
+    std::cout << "\nВведите новый университет: ";
+    std::cin >> student.university;
+
+    std::cout << "\nВведите новый факультет: ";
+    std::cin >> student.faculty;
+
+    std::cout << "\nВведите новый год обучения: ";
+    std::cin >> student.year;
+}
+
+void save_to_file(const std::vector<Student> &students, const std::string &filename)
+{
+    std::ofstream file(filename);
+    if (!file)
+    {
+        std::cerr << "Не удалось открыть файл для записи: " << filename << std::endl;
+        return;
+    }
+
+    for (const auto &p : students)
+    {
+        file << p.surname << " " << p.university << " " << p.faculty << " " << p.year << "\n";
+    }
+
+    file.close();
+}
