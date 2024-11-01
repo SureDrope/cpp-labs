@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -I include
+CXXFLAGS = -std=c++20 -I include
 
 # Project files
 SOURCES = main.cpp classes/*

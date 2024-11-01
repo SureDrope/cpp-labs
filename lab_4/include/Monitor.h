@@ -7,13 +7,13 @@ class Monitor : public Peripheral
 {
 public:
     Monitor(std::string brand, std::string model, float price, int lifespan,
-            int width_pixels, int height_pixels);
+            std::string resolution);
 
     void print_info() override;
+    void edit_fields() override;
 
     std::string get_resolution();
 
 protected:
-    int width_pixels;
-    int height_pixels;
+    std::string resolution;
 };

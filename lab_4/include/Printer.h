@@ -10,11 +10,10 @@ public:
             int paper_capacity);
 
     void print_info() override;
+    void edit_fields() override;
 
-    int get_paper_level();
-    void refill_paper();
+    int get_paper_capacity();
 
 protected:
-    int paper_level;
     int paper_capacity;
 };

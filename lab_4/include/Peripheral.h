@@ -17,6 +17,7 @@ public:
     void set_price(float price);
 
     virtual void print_info();
+    virtual void edit_fields();
 
 protected:
     std::string brand;

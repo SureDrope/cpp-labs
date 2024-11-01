@@ -1,6 +1,7 @@
 #include "../include/Peripheral.h"
-#include <string>
 #include <iostream>
+#include <string>
+#include <limits>
 
 Peripheral::Peripheral(std::string brand, std::string model, float price, int lifespan)
 {
@@ -39,8 +40,43 @@ void Peripheral::set_price(float price)
 
 void Peripheral::print_info()
 {
-    std::cout << "Бренд: " << this->brand << std::endl;
-    std::cout << "Модель: " << this->model << std::endl;
-    std::cout << "Цена: " << this->price << std::endl;
-    std::cout << "Срок службы: " << this->lifespan << std::endl;
+    std::cout << "1. Бренд: " << this->brand << std::endl;
+    std::cout << "2. Модель: " << this->model << std::endl;
+    std::cout << "3. Цена: " << this->price << std::endl;
+    std::cout << "4. Срок службы: " << this->lifespan << std::endl;
 };
+
+void Peripheral::edit_fields()
+{
+    std::string field_name;
+    std::cout << "Доступные поля:\n";
+    this->print_info();
+    std::cout << "Введите название поля или цифру для редактирования: ";
+
+    std::getline(std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'), field_name);
+
+    if (field_name.compare("Бренд") == 0 || field_name.compare("1") == 0)
+    {
+        std::cout << "Введите новый бренд: ";
+        std::getline(std::cin, this->brand);
+    }
+    else if (field_name.compare("Модель") == 0 || field_name.compare("2") == 0)
+    {
+        std::cout << "Введите новую модель: ";
+        std::getline(std::cin, this->model);
+    }
+    else if (field_name.compare("Цена") == 0 || field_name.compare("3") == 0)
+    {
+        std::cout << "Введите новую цену: ";
+        std::cin >> this->price;
+    }
+    else if (field_name.compare("Срок службы") == 0 || field_name.compare("4") == 0)
+    {
+        std::cout << "Введите новый срок службы: ";
+        std::cin >> this->lifespan;
+    }
+    else
+    {
+        std::cout << "Такого поля нет!" << std::endl;
+    }
+}
