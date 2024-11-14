@@ -56,6 +56,8 @@ int main()
         case 3:
             get_average_lifespan(peripherals);
             break;
+        case 0:
+            break;
         default:
             std::cout << "Некорректный выбор" << std::endl;
         }
