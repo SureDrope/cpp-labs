@@ -11,6 +11,7 @@ void get_average_lifespan(std::span<Peripheral *> peripherals);
 
 int main()
 {
+
     Monitor monitor1("Samsung", "S24C366EAU", 22000, 5, "2560x1440");
     Monitor monitor2("LG", "LS27C330GAUXEN", 15999.90, 7, "1920x1080");
 

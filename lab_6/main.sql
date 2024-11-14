@@ -1,5 +1,5 @@
 .mode columns
-.headers off
+.headers on
 
 /*
  * 3. Создайте при помощи команды языка SQL таблицу в соответствии с

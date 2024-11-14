@@ -13,6 +13,7 @@ std::string Monitor::get_resolution()
 {
     return resolution;
 }
+
 void Monitor::print_info()
 {
     Peripheral::print_info();
