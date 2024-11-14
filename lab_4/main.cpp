@@ -29,7 +29,7 @@ int main()
         std::cout << "3. Найти среднюю продолжительность жизни периферии\n";
         std::cout << "Ваш выбор: ";
 
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очистка буфера ввода
+        // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очистка буфера ввода
         std::cin >> choice;
         std::cout << "\n";
 

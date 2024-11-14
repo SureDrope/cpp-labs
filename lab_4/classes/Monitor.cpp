@@ -41,7 +41,9 @@ void Monitor::edit_fields()
     else if (field_name.compare("Цена") == 0 || field_name.compare("3") == 0)
     {
         std::cout << "Введите новую цену: ";
-        std::cin >> this->price;
+        float new_price;
+        std::cin >> new_price;
+        this->set_price(new_price);
     }
     else if (field_name.compare("Срок службы") == 0 || field_name.compare("4") == 0)
     {
