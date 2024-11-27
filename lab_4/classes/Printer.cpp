@@ -18,7 +18,7 @@ int Printer::get_paper_capacity()
 void Printer::print_info()
 {
     Peripheral::print_info();
-    std::cout << "Максимальное кол-во бумаги: " << this->paper_capacity << std::endl;
+    std::cout << "5. Максимальное кол-во бумаги: " << this->paper_capacity << std::endl;
     std::cout << "\n";
 }
 
